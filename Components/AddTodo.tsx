@@ -19,6 +19,7 @@ const AddTodo: React.FC<Props> = ({ isOpen, closeHandler }) => {
       id: todo.length,
       status: false,
       name: newTodoName,
+      addedAt: new Date().getTime(),
     };
     await SecureStore.setItemAsync(
       "stored_todo",

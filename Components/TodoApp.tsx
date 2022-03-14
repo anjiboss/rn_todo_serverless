@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { View } from "react-native";
-import { Text } from "react-native-elements";
+import Todo from "./Todo";
 import { TodoContext } from "./todoContext";
 import ToolBar from "./ToolBar";
 
@@ -15,9 +15,7 @@ const TodoApp: React.FC = () => {
     <View style={{ flex: 1 }}>
       <View style={{ flex: 9 }}>
         {todos.map((todo) => (
-          <View key={todo.id}>
-            <Text>{todo.name}</Text>
-          </View>
+          <Todo todo={todo} key={todo.id} />
         ))}
       </View>
       <ToolBar />

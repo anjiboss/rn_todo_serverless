@@ -16,6 +16,7 @@ const TodoWraper: React.FC = ({}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [todo, setTodo] = useState<Todo[]>([]);
   const [addTodo, setAddTodo] = useState(false);
+  const [selected, setSelected] = useState<Todo[]>([]);
   const [deleteTodo, setDeleteTodo] = useState(false);
 
   useEffect(() => {
@@ -43,11 +44,23 @@ const TodoWraper: React.FC = ({}) => {
   }, []);
 
   return (
-    <TodoContext.Provider value={{ todo, setTodo, setAddTodo, setDeleteTodo }}>
+    <TodoContext.Provider
+      value={{
+        todo,
+        selected,
+        setTodo,
+        setAddTodo,
+        setDeleteTodo,
+        setSelected,
+      }}
+    >
       <SafeAreaView style={{ flex: 1 }}>
         {isChecked && <TodoApp />}
         <AddTodo isOpen={addTodo} closeHandler={() => setAddTodo(false)} />
-        <DeleteTodo isOpen={deleteTodo} />
+        <DeleteTodo
+          isOpen={deleteTodo}
+          closeHandler={() => setDeleteTodo(false)}
+        />
       </SafeAreaView>
     </TodoContext.Provider>
   );
