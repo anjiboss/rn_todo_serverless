@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import * as SecureStore from "expo-secure-store";
 import { TodoContext } from "./todoContext";
 import AddTodo from "./AddTodo";
 import DeleteTodo from "./DeleteTodo";
 import TodoApp from "./TodoApp";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { store } from "./store";
 
 /**
  *  This Component will:
@@ -21,7 +21,7 @@ const TodoWraper: React.FC = ({}) => {
 
   useEffect(() => {
     const getStoredTodo = async () => {
-      const stored = await SecureStore.getItemAsync("stored_todo");
+      const stored = await store.getTodo();
       if (stored) {
         let todos: Todo[] = JSON.parse(stored);
         // Filter Todo ended yester day
