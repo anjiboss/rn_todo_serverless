@@ -38,7 +38,9 @@ const TodoWraper: React.FC = ({}) => {
     };
 
     getStoredTodo().then((stored) => {
-      setTodo(stored);
+      setTodo(
+        stored.sort((a, b) => (a.status === b.status ? 0 : a.status ? 1 : -1))
+      );
       setIsChecked(true);
     });
   }, []);
@@ -54,7 +56,7 @@ const TodoWraper: React.FC = ({}) => {
         setSelected,
       }}
     >
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, paddingTop: 30 }}>
         {isChecked && <TodoApp />}
         <AddTodo isOpen={addTodo} closeHandler={() => setAddTodo(false)} />
         <DeleteTodo

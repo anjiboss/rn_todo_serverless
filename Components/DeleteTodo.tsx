@@ -4,6 +4,7 @@ import Modal from "react-native-modal";
 import CButton from "./CButton";
 import { TodoContext } from "./todoContext";
 import * as SecureStore from "expo-secure-store";
+import Todo from "./Todo";
 
 interface Props {
   isOpen: boolean;
@@ -37,11 +38,7 @@ const DeleteTodo: React.FC<Props> = ({ isOpen, closeHandler }) => {
           <Text>Are You sure you want to delete this ? </Text>
           <View>
             {selected.map((s) => {
-              return (
-                <View key={s.id}>
-                  <Text>{s.name}</Text>
-                </View>
-              );
+              return <Todo key={s.id} small todo={s} />;
             })}
           </View>
           <View style={styles.btnContainer}>

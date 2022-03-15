@@ -16,7 +16,7 @@ const AddTodo: React.FC<Props> = ({ isOpen, closeHandler }) => {
 
   const saveTodoHandler = async () => {
     const newTodo: Todo = {
-      id: todo.length,
+      id: todo[todo.length - 1] ? todo[todo.length - 1].id + 1 : 0,
       status: false,
       name: newTodoName,
       addedAt: new Date().getTime(),
@@ -25,7 +25,12 @@ const AddTodo: React.FC<Props> = ({ isOpen, closeHandler }) => {
       "stored_todo",
       JSON.stringify([...todo, newTodo])
     );
-    setTodo((prev) => [...prev, newTodo]);
+    setTodo((prev) =>
+      [...prev, newTodo].sort((a, b) =>
+        a.status === b.status ? 0 : a.status ? 1 : -1
+      )
+    );
+    setNewTodo("");
     closeHandler();
   };
   return (

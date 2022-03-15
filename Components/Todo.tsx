@@ -6,9 +6,10 @@ import { TodoContext } from "./todoContext";
 
 interface TodoProps {
   todo: Todo;
+  small: boolean;
 }
 
-const Todo: React.FC<TodoProps> = ({ todo }) => {
+const Todo: React.FC<TodoProps> = ({ todo, small }) => {
   const { selected, setSelected, setTodo } = useContext(TodoContext);
   const isSelected = useMemo(() => {
     const checker = selected.find((td) => td.id === todo.id);
@@ -46,32 +47,42 @@ const Todo: React.FC<TodoProps> = ({ todo }) => {
     <TouchableOpacity onLongPress={handleSelecting} delayLongPress={300}>
       <View
         style={[
-          styles.todoContainer,
+          small ? styles.smallContainer : styles.todoContainer,
           {
-            backgroundColor: isSelected ? "#aaa" : "#35baf6",
+            backgroundColor: isSelected
+              ? "#c6ff00"
+              : todo.status === true
+              ? "#1769aa"
+              : "#35baf6",
           },
         ]}
       >
         <View>
-          <Text style={styles.todoName}>{todo.name}</Text>
-          <Text style={styles.addTime}>
-            {new Date(todo.addedAt).toLocaleString()}
+          <Text style={small ? styles.smallName : styles.todoName}>
+            {todo.name}
           </Text>
+          {!small && (
+            <Text style={styles.addTime}>
+              {new Date(todo.addedAt).toLocaleString()}
+            </Text>
+          )}
         </View>
-        <View>
-          <CButton
-            onPress={handleChangeStatus}
-            customTextStyle={{
-              fontSize: 20,
-              color: "#240185",
-            }}
-            customContainerStyle={{
-              height: 45,
-            }}
-          >
-            Done
-          </CButton>
-        </View>
+        {!small && (
+          <View>
+            <CButton
+              onPress={handleChangeStatus}
+              customTextStyle={{
+                fontSize: 20,
+                color: "#240185",
+              }}
+              customContainerStyle={{
+                height: 45,
+              }}
+            >
+              Done
+            </CButton>
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -87,8 +98,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  smallContainer: {
+    height: 30,
+    margin: 3,
+    padding: 3,
+    borderRadius: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   todoName: {
     fontSize: 18,
+    fontWeight: "bold",
+  },
+  smallName: {
+    fontSize: 12,
     fontWeight: "bold",
   },
   addTime: {
